@@ -1,6 +1,7 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
 const User = require('../modules/User')
+const VIP = require('../modules/VIP')
 /* GET users listing. */
 
 function registerUser(obj) {
@@ -115,14 +116,23 @@ router.post('/active', async (req, res) => {
         msg: '已是VIP'
       })
     } else {
+      console.log('返回值： ', isValid(req.body.code))
       if (isValid(req.body.code)) {
-        User.update({ username: req.session.username }, { isVip: true }, function (err, result) {
+        console.log('返回值： ', isValid(req.body.code)
+        .then(data => {
+          console.log('data: ', data)
+        }))
+        User.updateOne({ username: req.session.username }, { isVip: true }, function (err, result) {
           if (err) {
             res.send({
               code: 1,
               msg: '激活失败'
             })
           } else {
+            const v = new VIP({
+              activeCode: req.body.code,
+            })
+            v.save()
             res.send({
               code: 0,
               msg: '激活成功'
@@ -144,11 +154,17 @@ router.post('/active', async (req, res) => {
     })
   }
 })
-function isValid(str) {
+ async function isValid(str) {
   if (atob(str).indexOf('avc') != -1) {
-    return true
-  } else {
-    return false
+    const data =  await VIP.findOne({ activeCode: str });
+    console.log('data: ', data)
+    if (!data) {
+      console.log('未被使用')
+      return true
+    } else {
+      console.log('已被使用')
+      return false
+    }
   }
 }
 module.exports = router;

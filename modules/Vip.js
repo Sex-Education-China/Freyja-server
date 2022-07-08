@@ -6,6 +6,4 @@ const VIPSchema = new Schema({
 
 const Vip =mongoose.model('vip',VIPSchema)
 
-
-
 module.exports = Vip;
