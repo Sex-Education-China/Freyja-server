@@ -17,8 +17,28 @@ router.post('/addVideo', async (req, res) => {
         })
 })
 router.post('/getVideo',async (req,res)=>{
-    const video = await Video.find().then(result=>{
-        console.log(result)
+    const page = req.body.page
+    const video = await Video.find().
+    limit(req.body.limit).
+    then(result=>{
+        res.send(result)
+    })
+})
+router.post('/getVideoByTag', (req,res)=>{
+    const video =  Video.find(
+        {title:{
+            $regex:req.body.tag
+        }}).
+    then(result=>{
+        res.send(result)
+    })
+})
+router.post('/getVideoByTitle',async (req,res)=>{
+    const video =  Video.find(
+        {title:{
+            $regex:req.body.title
+        }}).
+    then(result=>{
         res.send(result)
     })
 })

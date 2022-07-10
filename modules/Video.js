@@ -6,6 +6,7 @@ const VideoSchema = new Schema({
     view:Number,
     like:Number,
     link:String,
+    tag:Array,
 })
 
 const Video =mongoose.model('videos',VideoSchema)
