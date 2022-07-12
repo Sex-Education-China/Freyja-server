@@ -49,6 +49,7 @@ router.post('/register', async (req, res) => {
       id: req.body.id,
       isAdmin: false,
       isVip: false,
+      registerTime: new Date(),
     })
     await user.save()
     res.send({

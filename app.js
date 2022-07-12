@@ -9,6 +9,7 @@ const session = require('express-session')
 const User = require("./modules/User");
 const AdminRouter = require("./routes/AdminRouter");
 const Tools = require("./handle/Tools");
+const Video = require("./modules/Video");
 app.use(session({
   secret:'session-secret',
   saveUninitialized:true, //保存未初始化的session

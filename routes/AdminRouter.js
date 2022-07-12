@@ -1,7 +1,10 @@
 const Video = require('../modules/Video')
 const express = require('express');
 const router = express.Router();
-
+const random = require('mongoose-random');
+const mongoose = require("mongoose");
+const Schema = new mongoose.Schema({ /* ... */ });
+Schema.plugin(random, { path: 'r' }); // by default `path` is `random`. It's used internally to store a random value on each doc.
 router.post('/addVideo', async (req, res) => {
     const video = new Video({
         title:req.body.title,
@@ -50,5 +53,19 @@ router.post('/getVideoByPage',async (req,res)=>{
     then(result=>{
         res.send(result)
     })
+})
+router.post('/getTotal',async (req,res)=>{
+    const total = await Video.countDocuments()
+    res.send({
+        total
+    })
+})
+router.post('/randomVideo',async (req,res)=>{
+    Video.findRandom({}, {}, {limit: 10}, function(err, results) {
+        if (!err) {
+            res.send(results)
+        }
+    });
+
 })
 module.exports = router;
