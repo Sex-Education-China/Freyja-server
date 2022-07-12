@@ -8,6 +8,7 @@ const UserSchema = new Schema({
     registerTime:Date,
     lastLoginTime:Date,
     email:String,
+    id:String,
 })
 
 const User =mongoose.model('users',UserSchema)

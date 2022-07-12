@@ -46,10 +46,11 @@ router.post('/register', async (req, res) => {
     const user = new User({
       username: req.body.username,
       password: req.body.password,
+      id: req.body.id,
       isAdmin: false,
       isVip: false,
     })
-    user.save()
+    await user.save()
     res.send({
       code: 0,
       msg: '注册成功'

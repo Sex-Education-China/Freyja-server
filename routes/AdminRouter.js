@@ -42,4 +42,13 @@ router.post('/getVideoByTitle',async (req,res)=>{
         res.send(result)
     })
 })
+router.post('/getVideoByPage',async (req,res)=>{
+    const limit = 20
+    const video =  Video.find().
+    limit(20).
+    skip(limit*(req.body.page-1)).
+    then(result=>{
+        res.send(result)
+    })
+})
 module.exports = router;
