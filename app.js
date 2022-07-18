@@ -19,7 +19,7 @@ app.use(session({
   }
 }))
 mongoose.connect(
-  'mongodb://localhost:27017/bornhub'
+  'mongodb+srv://admin:ttLHKHq3vCTYg23@cluster0.o2br1.mongodb.net/bornhub'
 )
   .then(()=>console.log('connected'))
   .catch(e=>console.log(e)

@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const User = require('../modules/User')
 const VIP = require('../modules/VIP')
+const crypto = require("crypto");
 /* GET users listing. */
 
 function registerUser(obj) {
@@ -16,6 +17,11 @@ function isUserExit(str) {
   //const data =  User.find({ username: 'admin'});
   const data = User.find();
   return data
+}
+function sha256(str) {
+  const crypto = require('crypto');
+  const hash = crypto.createHash('md5');
+  return hash.update(str).digest('hex');
 }
 
 router.get('/', function (req, res, next) {
@@ -45,7 +51,7 @@ router.post('/register', async (req, res) => {
   } else {
     const user = new User({
       username: req.body.username,
-      password: req.body.password,
+      password: sha256(req.body.password),
       id: req.body.id,
       isAdmin: false,
       isVip: false,
@@ -61,7 +67,7 @@ router.post('/register', async (req, res) => {
 router.post('/login', async (req, res) => {
   const data = await User.findOne({ username: req.body.username });
   if (data) {
-    if (data.password === req.body.password) {
+    if (data.password === sha256(req.body.password)) {
       req.session.username = req.body.username
       res.send({
         code: 0,
@@ -169,4 +175,5 @@ router.post('/active', async (req, res) => {
     }
   }
 }
+
 module.exports = router;
