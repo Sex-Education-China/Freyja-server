@@ -2,16 +2,8 @@ const express = require('express');
 const router = express.Router();
 const User = require('../modules/User')
 const VIP = require('../modules/VIP')
-const crypto = require("crypto");
 /* GET users listing. */
 
-function registerUser(obj) {
-  const user = new User({
-    username: obj.username,
-    password: req.body.password
-  })
-  user.save()
-}
 
 function isUserExit(str) {
   //const data =  User.find({ username: 'admin'});
